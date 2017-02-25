@@ -135,3 +135,26 @@ function renderQuestionPage(state, element) {
   renderQuestionText(state, element.find('.question-text'));
   renderChoices(state, element.find('.choices'));
 };
+
+function renderQuestionCount(state, element) {
+  var text = (state.currentQuestionIndex + 1) + "/" + state.questions.length;
+  element.text(text);
+};
+
+function renderQuestionText(state, element) {
+  var currentQuestion = state.questions[state.currentQuestionIndex];
+  element.text(currentQuestion.text);
+};
+
+function renderChoices(state, element) {
+  var currentQuestion = state.questions[state.currentQuestionIndex];
+  var choices = currentQuestion.choices.map(function(choice, index) {
+    return (
+      '<li>' +
+        '<input type="radio" name="user-answer" value="' + index + '" required>' +
+        '<label>' + choice + '</label>' +
+      '</li>'
+    );
+  });
+  element.html(choices);
+};
