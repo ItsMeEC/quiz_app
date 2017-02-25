@@ -58,4 +58,34 @@ var state = {
 
   admonishments: [
     "That answer was incorrect....sorry! Please continue!"
-  ]
+  ],
+  score: 0,
+  currentQuestionIndex: 0,
+  route: 'start',
+  lastAnswerCorrect: false,
+  feedbackRandom: 0
+};
+
+function setRoute(state, route) {
+  state.route = route;
+};
+
+function resetGame(state) {
+  state.score = 0;
+  state.currentQuestionIndex = 0;
+  setRoute(state, 'start');
+};
+
+function answerQuestion(state, answer) {
+  var currentQuestion = state.questions[state.currentQuestionIndex];
+  state.lastAnswerCorrect = currentQuestion.correctChoiceIndex === answer;
+  if (state.lastAnswerCorrect) {
+    state.score++;
+  }
+  selectFeedback(state);
+  setRoute(state, 'answer-feedback');
+};
+
+function selectFeedback(state) {
+  state.feedbackRandom = Math.random();
+};
