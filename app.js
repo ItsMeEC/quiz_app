@@ -158,3 +158,29 @@ function renderChoices(state, element) {
   });
   element.html(choices);
 };
+
+function renderAnswerFeedbackHeader(state, element) {
+  var html = state.lastAnswerCorrect ?
+      "<h6 class='user-was-correct'>Correct!</h6>" :
+      "<h1 class='user-was-incorrect'>Incorrect!</>";
+
+  element.html(html);
+};
+
+function renderNextButtonText(state, element) {
+    var text = state.currentQuestionIndex < state.questions.length - 1 ?
+      "Next" : "How did I do?";
+  element.text(text);
+};
+
+function renderAnswerFeedbackText(state, element) {
+  var choices = state.lastAnswerCorrect ? state.praises : state.admonishments;
+  var text = choices[Math.floor(state.feedbackRandom * choices.length)];
+  element.text(text);
+};
+
+function renderFinalFeedbackText(state, element) {
+  var text = "You got " + state.score + " out of " +
+    state.questions.length + " questions correct.";
+  element.text(text);
+};
