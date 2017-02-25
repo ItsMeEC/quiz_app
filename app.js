@@ -184,3 +184,37 @@ function renderFinalFeedbackText(state, element) {
     state.questions.length + " questions correct.";
   element.text(text);
 };
+
+var PAGE_ELEMENTS = {
+  'start': $('.start-page'),
+  'question': $('.question-page'),
+  'answer-feedback': $('.answer-feedback-page'),
+  'final-feedback': $('.final-feedback-page')
+};
+
+$("form[name='game-start']").submit(function(event) {
+  event.preventDefault();
+  setRoute(state, 'question');
+  renderApp(state, PAGE_ELEMENTS);
+});
+
+$(".restart-game").click(function(event){
+  event.preventDefault();
+  resetGame(state);
+  renderApp(state, PAGE_ELEMENTS);
+});
+
+$("form[name='current-question']").submit(function(event) {
+  event.preventDefault();
+  var answer = $("input[name='user-answer']:checked").val();
+  answer = parseInt(answer, 10);
+  answerQuestion(state, answer);
+  renderApp(state, PAGE_ELEMENTS);
+});
+
+$(".see-next").click(function(event) {
+  advance(state);
+  renderApp(state, PAGE_ELEMENTS);
+});
+
+$(function() { renderApp(state, PAGE_ELEMENTS); });
