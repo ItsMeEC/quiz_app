@@ -89,3 +89,49 @@ function answerQuestion(state, answer) {
 function selectFeedback(state) {
   state.feedbackRandom = Math.random();
 };
+
+function advance(state) {
+  state.currentQuestionIndex++;
+  if (state.currentQuestionIndex === state.questions.length) {
+    setRoute(state, 'final-feedback');
+  }
+  else {
+    setRoute(state, 'question');
+  }
+};
+
+//took me some time to figure out the render function and the for loop
+function renderApp(state, elements) {
+  Object.keys(elements).forEach(function(route) {
+    elements[route].hide();
+  });
+  elements[state.route].show();
+  if (state.route === 'start') {
+      renderStartPage(state, elements[state.route]);
+  }
+  else if (state.route === 'question') {
+      renderQuestionPage(state, elements[state.route]);
+  }
+  else if (state.route === 'answer-feedback') {
+    renderAnswerFeedbackPage(state, elements[state.route]);
+  }
+  else if (state.route === 'final-feedback') {
+    renderFinalFeedbackPage(state, elements[state.route]);
+  }
+};
+
+function renderFinalFeedbackPage(state, element) {
+  renderFinalFeedbackText(state, element.find('.results-text'));
+};
+
+function renderAnswerFeedbackPage(state, element) {
+  renderAnswerFeedbackHeader(state, element.find(".feedback-header"));
+  renderAnswerFeedbackText(state, element.find(".feedback-text"));
+  renderNextButtonText(state, element.find(".see-next"));
+};
+
+function renderQuestionPage(state, element) {
+  renderQuestionCount(state, element.find('.question-count'));
+  renderQuestionText(state, element.find('.question-text'));
+  renderChoices(state, element.find('.choices'));
+};
